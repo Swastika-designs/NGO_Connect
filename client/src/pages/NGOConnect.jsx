@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 // ─── Styles ───────────────────────────────────────────────────────────────────
 const styles = `
@@ -153,13 +154,14 @@ const stats = [
 ];
 
 const ngos = [
-  { name: "Green Earth Initiative", desc: "Leading reforestation efforts across Sub-Saharan Africa and promoting sustainable environmental practices.", badge: "Environment", badgeClass: "badge-env", icon: "🌿", iconBg: "#dcf5e7", bg: "#3a6b4e", emoji: "🌳", projects: 14 },
-  { name: "Education For All", desc: "Providing digital literacy and educational resources to underprivileged urban communities worldwide.", badge: "Education", badgeClass: "badge-edu", icon: "📚", iconBg: "#dbeafe", bg: "#3b5ea0", emoji: "📖", projects: 32 },
-  { name: "Heal The World", desc: "Delivering vital medical supplies and mobile clinics to disaster-affected regions globally.", badge: "Healthcare", badgeClass: "badge-health", icon: "🏥", iconBg: "#fee2e2", bg: "#5c8a5e", emoji: "🩺", projects: 8 },
+  { slug: "green-earth-initiative", name: "Green Earth Initiative", desc: "Leading reforestation efforts across Sub-Saharan Africa and promoting sustainable environmental practices.", badge: "Environment", badgeClass: "badge-env", icon: "🌿", iconBg: "#dcf5e7", bg: "#3a6b4e", emoji: "🌳", projects: 14 },
+  { slug: "education-for-all", name: "Education For All", desc: "Providing digital literacy and educational resources to underprivileged urban communities worldwide.", badge: "Education", badgeClass: "badge-edu", icon: "📚", iconBg: "#dbeafe", bg: "#3b5ea0", emoji: "📖", projects: 32 },
+  { slug: "heal-the-world", name: "Heal The World", desc: "Delivering vital medical supplies and mobile clinics to disaster-affected regions globally.", badge: "Healthcare", badgeClass: "badge-health", icon: "🏥", iconBg: "#fee2e2", bg: "#5c8a5e", emoji: "🩺", projects: 8 },
 ];
 
 export default function NGOConnect() {
   const [email, setEmail] = useState("");
+  const navigate = useNavigate();
 
   return (
     <>
@@ -182,8 +184,8 @@ export default function NGOConnect() {
           ))}
         </ul>
         <div className="nav-actions">
-          <button className="btn-ghost">Login</button>
-          <button className="btn-register">Register</button>
+          <button className="btn-ghost" onClick={() => navigate("/ngo/login")}>Login</button>
+          <button className="btn-register" onClick={() => navigate("/ngo/register")}>Register</button>
         </div>
       </nav>
 
@@ -198,8 +200,12 @@ export default function NGOConnect() {
             Empowering communities by bringing together dedicated volunteers and impactful organizations to solve the world's most pressing challenges.
           </p>
           <div className="hero-btns">
-            {["Join as Volunteer", "Join as NGO", "Join as Donor"].map(t => (
-              <button key={t} className="btn-hero">{t}</button>
+            {[
+              { label: "Join as Volunteer", path: "/ngo/register" },
+              { label: "Join as NGO", path: "/ngo/register" },
+              { label: "Join as Donor", path: "/ngo/register" },
+            ].map(({ label, path }) => (
+              <button key={label} className="btn-hero" onClick={() => navigate(path)}>{label}</button>
             ))}
           </div>
           <div className="hero-support">♡ Support a Cause</div>
@@ -226,7 +232,7 @@ export default function NGOConnect() {
             <h2 className="section-title">Featured NGOs</h2>
             <p className="section-sub">Spotlighting organizations that are making real, measurable impact across the globe. Join their mission today.</p>
           </div>
-          <a href="#" className="link-explore">Explore All NGOs →</a>
+          <button className="btn-ghost" onClick={() => navigate("/ngos")}>Explore All NGOs →</button>
         </div>
         <div className="ngo-grid">
           {ngos.map(n => (
@@ -243,7 +249,7 @@ export default function NGOConnect() {
                 <p className="ngo-desc">{n.desc}</p>
                 <div className="ngo-footer">
                   <span className="ngo-projects">Active Projects: {String(n.projects).padStart(2, "0")}</span>
-                  <button className="btn-learn">Learn More</button>
+                  <button className="btn-learn" onClick={() => navigate(`/ngos/${n.slug}`)}>Learn More</button>
                 </div>
               </div>
             </div>
@@ -256,8 +262,8 @@ export default function NGOConnect() {
         <h2 className="cta-title">Ready to make a difference?</h2>
         <p className="cta-sub">Whether you have an hour to give or a lifelong mission to lead, NGO Connect provides the tools and network to amplify your impact.</p>
         <div className="cta-btns">
-          <button className="btn-primary">Get Started Today</button>
-          <button className="btn-outline">Contact Support</button>
+          <button className="btn-primary" onClick={() => navigate("/ngo/register")}>Get Started Today</button>
+          <button className="btn-outline" onClick={() => navigate("/support")}>Contact Support</button>
         </div>
       </section>
 

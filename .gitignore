@@ -1,0 +1,6 @@
+server/uploads/
+node_modules/
+.env
+dist/
+build/
+package-lock.json
